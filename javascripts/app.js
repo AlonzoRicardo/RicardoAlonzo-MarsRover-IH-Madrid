@@ -115,7 +115,7 @@ function moveForward(robot){
   }
   canProcede = true;
   grid[robot.x][robot.y] = robot.icon;
-
+  updateHtmlGrid ();
 }
 
 function moveBackwards(robot){
@@ -158,6 +158,7 @@ function moveBackwards(robot){
   }
   canProcede = true;
   grid[robot.x][robot.y] = robot.icon;
+  updateHtmlGrid ();
 
 }
 
@@ -258,4 +259,27 @@ function commands(string){
   }
 }
 
+function updateHtmlGrid () {
+  removeElementsByClass()
+  for (var i = 0; i < grid.length; i++) {
+    var row = grid[i];
+    for (var j = 0; j < row.length; j++) {
+      var column = row[j];
+      var div = document.createElement('div');
+      div.className = 'cellblock';
+      div.textContent = grid[i][j];
+
+      document.getElementById('container').appendChild(div);
+    }
+  }
+}
+
+function removeElementsByClass(){
+    var elements = document.getElementsByClassName('cellblock');
+    while(elements.length > 0){
+        elements[0].parentNode.removeChild(elements[0]);
+    }
+}
+
 updateObstacles();
+setTimeout(function() {updateHtmlGrid(); });

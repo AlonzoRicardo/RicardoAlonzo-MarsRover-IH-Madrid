@@ -1,0 +1,27 @@
+html {
+  background-color: black;
+  font-size: 43px;
+}
+
+div {
+  text-align: center;
+  color: red;
+  display:table-cell;
+  height:auto;
+  width:auto;
+  border:1px solid black;
+}
+
+.container {
+
+  background-color: white;
+
+  color: white;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 50px 50px 50px 50px 50px 50px 50px 50px 50px 50px;
+  grid-template-rows: 50px 50px 50px 50px 50px 50px 50px 50px 50px 50px;
+  grid-gap: 10px;
+
+
+}
