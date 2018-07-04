@@ -3,6 +3,17 @@ html {
   font-size: 43px;
 }
 
+h3 {
+  float: left;
+  font-family:  monospace;
+}
+
+p {
+  font-size:15px;
+  color: white;
+}
+
+
 div {
   text-align: center;
   color: red;
@@ -13,15 +24,11 @@ div {
 }
 
 .container {
-
   background-color: white;
-
   color: white;
   width: 100%;
   display: grid;
   grid-template-columns: 50px 50px 50px 50px 50px 50px 50px 50px 50px 50px;
   grid-template-rows: 50px 50px 50px 50px 50px 50px 50px 50px 50px 50px;
   grid-gap: 10px;
-
-
 }

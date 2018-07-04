@@ -55,6 +55,7 @@ function turnLeft(robot){
     robot.direction = "N";
     console.log("robot is now facing North");
   }
+  updateHtmlGrid ();
 }
 
 
@@ -73,6 +74,7 @@ function turnRight(robot){
     robot.direction = "N";
     console.log("robot is now facing North");
   }
+  updateHtmlGrid ();
 }
 
 function moveForward(robot){
@@ -225,6 +227,7 @@ function updateObstacles (){
 
 function checkTurn(){
   if (turn % 2 === 0) {
+    setTimeout(function() {changeTurnColor2(); 10});
     robot = rover1;
     turn++;
     console.log("Rover1 in action");
@@ -232,11 +235,36 @@ function checkTurn(){
     robot = rover2;
     turn++;
     console.log("Rover2 in action");
+    setTimeout(function() {changeTurnColor1(); 10});
   }
 }
 
-function commands(string){
+//Added event listener - challenge by Susana from IronHack.
+document.addEventListener('keydown', function(event) {
   checkTurn();
+  switch(event.code) {
+    case 'KeyW':
+    moveForward(robot);
+    break;
+
+    case 'KeyD':
+    turnRight(robot);
+    break;
+
+    case 'KeyA':
+    turnLeft(robot);
+    break;
+
+    case 'KeyS':
+    moveBackwards(robot);
+    break;
+  }
+});
+
+//REPLACED BY EVENT ABOVE'S addEventListener
+/*function commands(string){
+  checkTurn();
+
   for (var i = 0; i < string.length; i++) {
     switch(string[i]) {
 
@@ -257,10 +285,12 @@ function commands(string){
       break;
     }
   }
-}
+}*/
 
 function updateHtmlGrid () {
-  removeElementsByClass()
+
+  updateTurnDisplay ();
+  removeElementsByClass();
   for (var i = 0; i < grid.length; i++) {
     var row = grid[i];
     for (var j = 0; j < row.length; j++) {
@@ -274,12 +304,45 @@ function updateHtmlGrid () {
   }
 }
 
+function changeTurnColor1 () {
+  document.getElementById('roverOneColor').setAttribute("style","color: white;");
+  document.getElementById('roverTwoColor').setAttribute("style","color: red;");
+}
+
+function changeTurnColor2 () {
+  document.getElementById('roverOneColor').style.color = "red";
+  document.getElementById('roverTwoColor').style.color = "white";
+}
+
+function updateTurnDisplay () {
+  var turnDisplay = document.createElement('h3');
+  var turnDisplay2 = document.createElement('h3');
+  turnDisplay.className = 'turnDisplay';
+  turnDisplay2.className = 'turnDisplay2';
+  turnDisplay.id = 'roverOneColor';
+  turnDisplay2.id = 'roverTwoColor';
+  //JSON.stringify to avoid [object Object] HTML print
+  turnDisplay.textContent = JSON.stringify("Robot: " + rover1.icon + " | Direction: "  + rover1.direction + " | X:" + rover1.x + " | Y:" + rover1.y);
+  turnDisplay2.textContent = JSON.stringify("Robot: " + rover2.icon + " | Direction: "  + rover2.direction + " | X:" + rover2.x + " | Y:" + rover2.y);
+  document.getElementById('turnDisplay').appendChild(turnDisplay);
+  document.getElementById('turnDisplay').appendChild(turnDisplay2);
+
+}
+
 function removeElementsByClass(){
     var elements = document.getElementsByClassName('cellblock');
+    var removeTurnDisplay = document.getElementsByClassName('turnDisplay');
+    var removeTurnDisplay2 = document.getElementsByClassName('turnDisplay2');
     while(elements.length > 0){
         elements[0].parentNode.removeChild(elements[0]);
+
     }
+    removeTurnDisplay[0].parentNode.removeChild(removeTurnDisplay[0]);
+    removeTurnDisplay2[0].parentNode.removeChild(removeTurnDisplay2[0]);
 }
 
 updateObstacles();
+
+setTimeout(function() {updateTurnDisplay(); 10});
 setTimeout(function() {updateHtmlGrid(); });
+setTimeout(function() {changeTurnColor1(); 10});
